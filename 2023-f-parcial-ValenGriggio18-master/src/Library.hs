@@ -1,7 +1,7 @@
 
 module Library where
 import PdePreludat
- 
+
 type Poder = (Nave -> Nave)
 
 type Flota = [Nave]
@@ -10,8 +10,10 @@ data Nave = UnaNave {
     durabilidad :: Number,
     escudo :: Number,
     ataque :: Number,
-    poderEspecial :: Poder
+    poderEspecial :: String
 }deriving Show
+
+--Flota de ejemplo
 
 laFlotita :: Flota
 laFlotita = [tieFighter, xWing]
@@ -36,22 +38,46 @@ velocidadTurbo laNave = laNave{escudo = escudo laNave - escudo laNave, ataque = 
 --Modelado de las naves
 
 tieFighter :: Nave
-tieFighter = UnaNave {nombre = "TIE Fighter", durabilidad = 200, escudo = 100, ataque = 50, poderEspecial = movTurbo}
+tieFighter = UnaNave {nombre = "TIE Fighter", durabilidad = 200, escudo = 100, ataque = 50, poderEspecial = "Movimiento turbo"}
 
 xWing :: Nave
-xWing = UnaNave {nombre = "X Wing", durabilidad = 300, escudo = 150, ataque = 100, poderEspecial = reparacion}
+xWing = UnaNave {nombre = "X Wing", durabilidad = 300, escudo = 150, ataque = 100, poderEspecial = "Reparacion"}
 
 darthVader :: Nave
-darthVader = UnaNave {nombre = "Nave de Darth Vader", durabilidad = 500, escudo = 300, ataque = 200, poderEspecial = superTurbo}
+darthVader = UnaNave {nombre = "Nave de Darth Vader", durabilidad = 500, escudo = 300, ataque = 200, poderEspecial = "Super turbo"}
 
 millenniumFalcon :: Nave
-millenniumFalcon = UnaNave {nombre = "Millennium Falcon", durabilidad = 1000, escudo = 500, ataque = 50, poderEspecial = reparacionEmergencia}
+millenniumFalcon = UnaNave {nombre = "Millennium Falcon", durabilidad = 1000, escudo = 500, ataque = 50, poderEspecial = "Reparacion de emergencia"}
 
 speedyWings :: Nave
-speedyWings = UnaNave {nombre = "Speedy Wings", durabilidad = 350, escudo = 100, ataque=800, poderEspecial = velocidadTurbo }
+speedyWings = UnaNave {nombre = "Speedy Wings", durabilidad = 350, escudo = 100, ataque=800, poderEspecial = "Velocidad turbo" }
+
+--Punto 2: Durabilidad total de una flota
 
 calcularDurabilidad :: Flota -> Number
 calcularDurabilidad laFlota = sum(map durabilidad  laFlota)
+
+--Punto 3: Saber como queda una nave luego de ser atacada por otra
+
+
+
+dañoRecibido :: Nave -> Nave -> Poder -> Poder -> Number
+dañoRecibido naveAtacante naveAtacada elPoderAtacante elPoderAtacada  = ataque (elPoderAtacante naveAtacante) - escudo (elPoderAtacada naveAtacada)
+
+ataqueDeNave :: Nave -> Nave -> Poder -> Poder -> Nave
+ataqueDeNave naveAtacante naveAtacada elPoderAtacante elPoderAtacada
+    |escudo naveAtacada < ataque naveAtacante = naveAtacada{durabilidad = durabilidad naveAtacada - dañoRecibido naveAtacante naveAtacada elPoderAtacante elPoderAtacada}
+    |otherwise = naveAtacada
+
+
+
+
+--Punto 4: Averiguar si una nave esta fuera de combate
+
+fueraDeCombate :: Nave -> Bool
+fueraDeCombate laNave = durabilidad laNave == 0
+
+
 
 
 
