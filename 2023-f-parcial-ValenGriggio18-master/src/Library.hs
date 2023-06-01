@@ -94,7 +94,7 @@ navesTanques :: Flota -> Flota
 navesTanques = filter escudoMayor200
 
 navesFueraDeCombate :: Flota -> Flota
-navesFueraDeCombate laFlota = filter fueraDeCombate 
+navesFueraDeCombate = filter (fueraDeCombate (ataqueDeNave))
 
 
 
