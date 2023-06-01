@@ -87,8 +87,16 @@ ataqueDesignado valorAtaque laNave = ataque laNave > valorAtaque
 navesPeligrosas :: Number -> Flota -> Flota
 navesPeligrosas valorDesignado = filter (ataqueDesignado valorDesignado)
 
+escudoMayor200 :: Nave -> Bool
+escudoMayor200 laNave = escudo laNave > 200
+
+navesTanques :: Flota -> Flota
+navesTanques = filter escudoMayor200
+
 navesFueraDeCombate :: Flota -> Flota
-navesFueraDeCombate laFlota = filter (fueraDeCombate (ataqueDeNave naveAtacante naveAtacada))
+navesFueraDeCombate laFlota = filter fueraDeCombate 
+
+
 
 
 
